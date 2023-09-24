@@ -7,8 +7,9 @@ command_exists() {
 
 # Function to install Python
 install_python() {
-    sudo apt-get install python
-    echo "Python has been installed successfully."
+    local python_version=$1
+    sudo apt-get install $python_version
+    echo "$python_version has been installed successfully."
 }
 
 # Function to display a welcome message
@@ -27,34 +28,32 @@ display_welcome() {
 
 # Main function
 main() {
-    # Check if Python 2 is installed
-    if ! command_exists python; then
-        echo "Python 2 is not installed on your system."
+    # Priority for Python 3
+    if command_exists python3; then
+        echo "Python 3 is already installed on your system."
+        python_version="python3"
+    # If Python 3 is not found, check for Python 2
+    elif command_exists python; then
+        echo "Python 2 is installed on your system."
+        python_version="python"
+    # If neither Python 2 nor Python 3 is found, prompt the user to install
+    else
+        echo "Python is not installed on your system."
         read -p "Do you want to install Python? (y/n): " choice
         if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
-            install_python
+            install_python "python3"
+            python_version="python3"
         else
             echo "Python is required for this script. Please install it manually."
+            exit 1
         fi
-    else
-        echo "Python 2 is already installed on your system."
-    fi
-
-    # Check if Python 3 is installed
-    if ! command_exists python3; then
-        echo "Python 3 is not installed on your system."
-        read -p "Do you want to install Python 3? (y/n): " choice
-        if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
-            install_python
-        else
-            echo "Python 3 is required for this script. Please install it manually."
-        fi
-    else
-        echo "Python 3 is already installed on your system."
     fi
 
     # Display welcome message
     display_welcome
+
+    # Use $python_version in your script to refer to the selected Python version.
+    # For example: $python_version your_script.py
 }
 
 # Run the main function
