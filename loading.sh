@@ -26,6 +26,20 @@ display_welcome() {
     fi
 }
 
+# Function for a basic loading spinner
+loading_spinner() {
+    local pid=$1
+    local spin='-\|/'
+    while [ -d "/proc/$pid" ]; do
+        local temp=${spin#?}
+        printf " [%c] " "$spin"
+        local spin=$temp${spin%"$temp"}
+        sleep 0.1
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
+
 # Main function
 main() {
     # Color definitions
@@ -66,6 +80,17 @@ main() {
 
     # Use $python_version in your script to refer to the selected Python version.
     # For example: $python_version your_script.py
+
+    # Simulate a task (in this case, sleep for 5 seconds)
+    echo "Simulating a task..."
+    sleep 5 &
+
+    # Show loading spinner while Python is being installed (if required)
+    if [ "$python_version" == "python3" ]; then
+        loading_spinner $!
+    fi
+
+    echo "Task completed!"
 }
 
 # Run the main function
