@@ -11,7 +11,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # If neither Python 2 nor Python 3 is installed, prompt the user to install
-if [ ! command -v python ] && [ ! command -v python3 ]; then
+if [ ! "$(command -v python)" ] && [ ! "$(command -v python3)" ]; then
     read -p "Do you want to install Python? (y/n): " choice
     if [ "$choice" == "y" ] || [ "$choice" == "Y" ]; then
         # Install Python (adjust package manager and command as needed)
