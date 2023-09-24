@@ -81,6 +81,7 @@ main() {
     # Use $python_version in your script to refer to the selected Python version.
     # For example: $python_version your_script.py
 
+    printf "${white}-------------------------------\n$"
     # Simulate a task (in this case, sleep for 5 seconds)
     echo "Simulating a task..."
     sleep 5 &
