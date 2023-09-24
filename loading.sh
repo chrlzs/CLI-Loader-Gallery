@@ -30,11 +30,11 @@ display_welcome() {
 main() {
     # Priority for Python 3
     if command_exists python3; then
-        echo "Python 3 is already installed on your system."
+        #echo "Python 3 is already installed on your system."
         python_version="python3"
     # If Python 3 is not found, check for Python 2
     elif command_exists python; then
-        echo "Python 2 is installed on your system."
+        #echo "Python 2 is installed on your system."
         python_version="python"
     # If neither Python 2 nor Python 3 is found, prompt the user to install
     else
