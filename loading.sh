@@ -83,15 +83,25 @@ simulate_task_with_bouncing_ball() {
     echo -e "\nTask completed!"
 }
 
-
 simulate_task_with_spinner() {
     local spinner="/-\|"
+    local i=0
     local total_steps=20
-    while true; do
-        printf "\rProcessing... %c" "${spinner:$total_steps%${#spinner}:1}"
-        sleep 0.2
+    local task_finished=false
+
+    trap 'task_finished=true' INT  # Handle Ctrl+C to stop the spinner
+
+    while ! $task_finished; do
+        printf "\rProcessing... %c" "${spinner:$i%${#spinner}:1}"
+        sleep 0.1
         ((i++))
+        if [ $i -eq $total_steps ]; then
+            i=0
+        fi
     done
+
+    echo -e "\nTask completed!"
+    trap - INT  # Reset Ctrl+C handling to default
 }
 
 # Main function
