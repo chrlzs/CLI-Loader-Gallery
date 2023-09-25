@@ -41,7 +41,7 @@ loading_spinner() {
 }
 
 # Function to simulate a task with a progress bar
-simulate_task() {
+simulate_task_with_progress() {
     local total_steps=20
     for ((i=1; i<=total_steps; i++)); do
         sleep 0.2  # Simulate some work
@@ -102,7 +102,7 @@ main() {
     fi
 
     # Simulate a task with a progress bar
-    simulate_task
+    simulate_task_with_progress
 
     echo "Task completed!"
 }
