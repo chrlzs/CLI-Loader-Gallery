@@ -40,6 +40,16 @@ loading_spinner() {
     printf "    \b\b\b\b"
 }
 
+# Function to simulate a task with a progress bar
+simulate_task() {
+    local total_steps=20
+    for ((i=1; i<=total_steps; i++)); do
+        sleep 0.2  # Simulate some work
+        echo -ne "\rProgress: [$(printf '=%.0s' {1..$i})$(printf ' %.0s' {1..$((total_steps-i))})] ($((i*5))%)"
+    done
+    echo "Task completed!"
+}
+
 # Main function
 main() {
     # Color definitions
@@ -90,6 +100,9 @@ main() {
     if [ "$python_version" == "python3" ]; then
         loading_spinner $!
     fi
+
+    # Simulate a task with a progress bar
+    simulate_task
 
     echo "Task completed!"
 }
