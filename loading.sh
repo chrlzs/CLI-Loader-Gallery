@@ -93,14 +93,23 @@ simulate_task_with_spinner() {
 
     trap 'task_finished=true' INT  # Handle Ctrl+C to stop the spinner
 
-    while ! $task_finished; do
+    (while ! $task_finished; do
         printf "\rProcessing... %c" "${spinner:$i%${#spinner}:1}"
         sleep 0.1
         ((i++))
         if [ $i -eq $total_steps ]; then
             i=0
         fi
-    done
+    done) &
+
+    local spinner_pid=$!
+
+    # Simulate some work (in this case, sleep for 5 seconds)
+    sleep 5
+
+    # Stop the spinner and notify task completion
+    kill -TERM $spinner_pid &> /dev/null
+    wait $spinner_pid &> /dev/null
 
     echo -e "\nTask completed!"
     trap - INT  # Reset Ctrl+C handling to default
