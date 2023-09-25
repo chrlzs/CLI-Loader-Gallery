@@ -36,6 +36,36 @@ simulate_task_with_progress() {
     echo "Task completed!"
 }
 
+
+# Function to simulate a task with a bouncing ball animation
+simulate_task_with_bouncing_ball() {
+    local ball="o"
+    local space=" "
+    local max_width=20
+    local direction=1
+    local position=1
+
+    for ((i=1; i<=50; i++)); do
+        sleep 0.1
+        local display=""
+        for ((j=1; j<=max_width; j++)); do
+            if [ "$j" -eq "$position" ]; then
+                display+="$ball"
+            else
+                display+="$space"
+            fi
+        done
+        echo -ne "\r$display"
+        if [ "$position" -eq "$max_width" ] || [ "$position" -eq "1" ]; then
+            direction=$((direction * -1))
+        fi
+        position=$((position + direction))
+    done
+
+    echo -e "\nTask completed!"
+}
+
+
 simulate_task_with_spinner() {
     local spinner="/-\|"
     local total_steps=20
@@ -91,6 +121,9 @@ main() {
 
     # Simulate a task with a progress bar
     simulate_task_with_progress
+
+    # Simulate a task with a bouncing ball
+    simulate_task_with_bouncing_ball
 
     # Simulate a task with a spinner
     simulate_task_with_spinner
