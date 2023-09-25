@@ -60,8 +60,8 @@ simulate_task_with_bouncing_ball() {
     local ball="o"
     local space=" "
     local max_width=20
-    local direction=1
     local position=1
+    local direction=1
 
     for ((i=1; i<=50; i++)); do
         sleep 0.1
@@ -74,8 +74,10 @@ simulate_task_with_bouncing_ball() {
             fi
         done
         echo -ne "\r$display"
-        if [ "$position" -eq "$max_width" ] || [ "$position" -eq "1" ]; then
-            direction=$((direction * -1))
+        if [ "$position" -eq "$max_width" ]; then
+            direction=-1
+        elif [ "$position" -eq "1" ]; then
+            direction=1
         fi
         position=$((position + direction))
     done
