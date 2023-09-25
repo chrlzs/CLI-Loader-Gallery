@@ -26,20 +26,6 @@ display_welcome() {
     fi
 }
 
-# Function for a basic loading spinner
-loading_spinner() {
-    local pid=$1
-    local spin='-\|/'
-    while [ -d "/proc/$pid" ]; do
-        local temp=${spin#?}
-        printf " [%c] " "$spin"
-        local spin=$temp${spin%"$temp"}
-        sleep 0.1
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
 # Function to simulate a task with a progress bar
 simulate_task_with_progress() {
     local total_steps=20
@@ -48,6 +34,16 @@ simulate_task_with_progress() {
         echo -ne "\rProgress: [$(printf '=%.0s' {1..$i})$(printf ' %.0s' {1..$((total_steps-i))})] ($((i*5))%)"
     done
     echo "Task completed!"
+}
+
+simulate_task_with_spinner() {
+    local spinner="/-\|"
+    local total_steps=20
+    while true; do
+        printf "\rProcessing... %c" "${spinner:$total_steps%${#spinner}:1}"
+        sleep 0.2
+        ((i++))
+    done
 }
 
 # Main function
@@ -92,17 +88,12 @@ main() {
     # For example: $python_version your_script.py
 
     printf "${white}-------------------------------\n$"
-    # Simulate a task (in this case, sleep for 5 seconds)
-    echo "Simulating a task..."
-    sleep 5 &
-
-    # Show loading spinner while Python is being installed (if required)
-    if [ "$python_version" == "python3" ]; then
-        loading_spinner $!
-    fi
 
     # Simulate a task with a progress bar
     simulate_task_with_progress
+
+    # Simulate a task with a spinner
+    simulate_task_with_spinner
 
     echo "Task completed!"
 }
