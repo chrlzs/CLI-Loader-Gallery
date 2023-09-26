@@ -54,7 +54,6 @@ simulate_task_with_progress() {
     echo "Task completed!"
 }
 
-
 # Function to simulate a task with a bouncing ball animation
 simulate_task_with_bouncing_ball() {
     local ball="o"
