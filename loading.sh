@@ -47,12 +47,24 @@ display_welcome() {
 # Function to simulate a task with a progress bar
 simulate_task_with_progress() {
     local total_steps=20
-    for ((i=1; i<=total_steps; i++)); do
+    local width=40
+
+    for ((i=0; i<=total_steps; i++)); do
         sleep 0.2  # Simulate some work
-        echo -ne "\rProgress: [$(printf '=%.0s' {1..$i})$(printf ' %.0s' {1..$((total_steps-i))})] ($((i*5))%)"
+
+        # Calculate the progress percentage
+        progress=$((i * 100 / total_steps))
+        
+        # Calculate the number of characters to display for the progress bar
+        num_chars=$((i * width / total_steps))
+
+        # Print the progress bar
+        printf "\rProgress: [%-${width}s] (%d%%)" "$(printf '#%.0s' $(seq 1 $num_chars))" "$progress"
     done
-    echo "Task completed!"
+
+    echo -e "\nTask completed!"
 }
+
 
 # Function to simulate a task with a bouncing ball animation
 simulate_task_with_bouncing_ball() {
