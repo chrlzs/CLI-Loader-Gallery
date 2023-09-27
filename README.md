@@ -34,6 +34,8 @@ This Bash script demonstrates various loading animations in a Command Line Inter
 
 - **Spinner**: Displays a spinning animation indicating that a task is in progress.
 
+- **Pulsing Dot**: Pulsing Dot Animation: A dot pulses in size to indicate processing.
+
 ## Dependencies
 
 - `figlet`: Optional. Used to display a welcome message in ASCII art.
