@@ -201,7 +201,7 @@ simulate_task_with_bouncing_bar() {
         done
         printf "\rProcessing... [%s]" "$display"
         sleep 0.1
-        if [ "$position" -eq "$max_width" ] || [ "$position" -eq "1" ]; then
+        if [ "$position" -eq "$((max_width - bar_width + 1))" ] || [ "$position" -eq "1" ]; then
             direction=$((direction * -1))
         fi
         position=$((position + direction))
@@ -219,7 +219,6 @@ simulate_task_with_bouncing_bar() {
     echo -e "\nTask completed!"
     trap - INT  # Reset Ctrl+C handling to default
 }
-
 
 
 # Main function
