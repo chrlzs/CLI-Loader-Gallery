@@ -184,8 +184,8 @@ simulate_task_with_arrow_sequence() {
 simulate_task_with_bouncing_bar() {
     local bar_width=10
     local max_width=40
-    local position=1
-    local direction=1
+    local position=$((max_width - bar_width + 1))
+    local direction=-1
     local task_finished=false
 
     trap 'task_finished=true' INT  # Handle Ctrl+C to stop the animation
@@ -201,7 +201,7 @@ simulate_task_with_bouncing_bar() {
         done
         printf "\rProcessing... [%s]" "$display"
         sleep 0.1
-        if [ "$position" -eq "$((max_width - bar_width + 1))" ] || [ "$position" -eq "1" ]; then
+        if [ "$position" -eq "1" ] || [ "$position" -eq "$((max_width - bar_width + 1))" ]; then
             direction=$((direction * -1))
         fi
         position=$((position + direction))
@@ -219,6 +219,7 @@ simulate_task_with_bouncing_bar() {
     echo -e "\nTask completed!"
     trap - INT  # Reset Ctrl+C handling to default
 }
+
 
 
 # Main function
