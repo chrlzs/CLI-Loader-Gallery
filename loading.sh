@@ -114,6 +114,35 @@ simulate_task_with_spinner() {
     trap - INT  # Reset Ctrl+C handling to default
 }
 
+simulate_task_with_pulsing_dot() {
+    local dot="."
+    local i=1
+    local total_dots=5
+    local total_cycles=10
+    local task_finished=false
+
+    trap 'task_finished=true' INT  # Handle Ctrl+C to stop the animation
+
+    (while ! $task_finished && ((i <= total_cycles)); do
+        printf "\rProcessing%s" "$(printf '%*s' $i)"
+        sleep 0.2
+        ((i = i % (total_dots + 1) + 1))
+    done) &
+
+    local animation_pid=$!
+
+    # Simulate some work (in this case, sleep for 5 seconds)
+    sleep 5
+
+    # Stop the animation and notify task completion
+    kill -TERM $animation_pid &> /dev/null
+    wait $animation_pid &> /dev/null
+
+    echo -e "\nTask completed!"
+    trap - INT  # Reset Ctrl+C handling to default
+}
+
+
 # Main function
 main() {
     # Color definitions
@@ -152,6 +181,9 @@ main() {
 
     # Simulate a task with a spinner
     simulate_task_with_spinner
+
+    # Simulate a task with a pulsing dot
+    simulate_task_with_pulsing_dot
 
     echo "Task completed!"
 }
