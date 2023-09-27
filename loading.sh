@@ -142,6 +142,34 @@ simulate_task_with_pulsing_dot() {
     trap - INT  # Reset Ctrl+C handling to default
 }
 
+simulate_task_with_arrow_sequence() {
+    local arrows=("→" "↗" "↑" "↖" "←" "↙" "↓" "↘")
+    local i=0
+    local total_steps=20
+    local task_finished=false
+
+    trap 'task_finished=true' INT  # Handle Ctrl+C to stop the animation
+
+    (while ! $task_finished; do
+        printf "\rProcessing... %s" "${arrows[$i]}"
+        sleep 0.1
+        ((i = (i + 1) % ${#arrows[@]}))
+    done) &
+
+    local animation_pid=$!
+
+    # Simulate some work (in this case, sleep for 5 seconds)
+    sleep 5
+
+    # Stop the animation and notify task completion
+    kill -TERM $animation_pid &> /dev/null
+    wait $animation_pid &> /dev/null
+
+    echo -e "\nTask completed!"
+    trap - INT  # Reset Ctrl+C handling to default
+}
+
+
 
 # Main function
 main() {
@@ -182,8 +210,11 @@ main() {
     # Simulate a task with a spinner
     simulate_task_with_spinner
 
-    # Simulate a task with a pulsing dot
+    # Simulate a task with a pulsing 
     simulate_task_with_pulsing_dot
+
+    simulate_task_with_arrow_sequence
+
 
     echo "Task completed!"
 }
