@@ -169,6 +169,45 @@ simulate_task_with_arrow_sequence() {
     trap - INT  # Reset Ctrl+C handling to default
 }
 
+simulate_task_with_bouncing_bar() {
+    local bar_width=10
+    local max_width=40
+    local position=1
+    local direction=1
+    local task_finished=false
+
+    trap 'task_finished=true' INT  # Handle Ctrl+C to stop the animation
+
+    (while ! $task_finished; do
+        local display=""
+        for ((j=1; j<=max_width; j++)); do
+            if [ "$j" -ge "$position" ] && [ "$j" -lt "$((position + bar_width))" ]; then
+                display+="="
+            else
+                display+=" "
+            fi
+        done
+        printf "\rProcessing... [%s]" "$display"
+        sleep 0.1
+        if [ "$position" -eq "$max_width" ] || [ "$position" -eq "1" ]; then
+            direction=$((direction * -1))
+        fi
+        position=$((position + direction))
+    done) &
+
+    local animation_pid=$!
+
+    # Simulate some work (in this case, sleep for 5 seconds)
+    sleep 5
+
+    # Stop the animation and notify task completion
+    kill -TERM $animation_pid &> /dev/null
+    wait $animation_pid &> /dev/null
+
+    echo -e "\nTask completed!"
+    trap - INT  # Reset Ctrl+C handling to default
+}
+
 
 
 # Main function
@@ -214,6 +253,8 @@ main() {
     simulate_task_with_pulsing_dot
 
     simulate_task_with_arrow_sequence
+
+    simulate_task_with_bouncing_bar
 
 
     echo "Task completed!"
