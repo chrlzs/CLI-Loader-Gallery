@@ -2,6 +2,15 @@
 
 This Bash script demonstrates various loading animations in a Command Line Interface (CLI). It checks for the presence of Python, displays a welcome message, and simulates tasks with different loading animations.
 
+## Table of Contents
+- [Features](#features)
+- [Usage](#usage)
+  - [Installation](#installation)
+  - [Running the Script](#running-the-script)
+- [Loading Animations](#loading-animations)
+- [Dependencies](#dependencies)
+- [License](#license)
+
 ## Features
 
 - Checks for the availability of Python and prompts the user to install it if needed.
@@ -10,21 +19,27 @@ This Bash script demonstrates various loading animations in a Command Line Inter
   - Progress Bar
   - Bouncing Ball Animation
   - Spinner
+  - Pulsing Dot
 
 ## Usage
 
-1. Make sure you have Bash and `apt-get` installed on your system.
+### Installation
 
-2. Run the script using the following command:
+Make sure you have Bash and `apt-get` installed on your system.
+
+### Running the Script
 
 ```bash
 ./loading.sh
 ```
 
-3. Follow the on-screen prompts:
-   - If Python is not installed, you'll be prompted to install it (Python 2 or Python 3).
-   - The script will then display a welcome message.
-   - It will simulate tasks with different loading animations.
+### Examples
+
+For advanced usage, you can pass additional options to the script. For example:
+
+```bash
+./loading.sh --option value
+```
 
 ## Loading Animations
 
@@ -40,9 +55,9 @@ This Bash script demonstrates various loading animations in a Command Line Inter
 
 - `figlet`: Optional. Used to display a welcome message in ASCII art.
 
-## Contributing
+## Additional Resources
 
-Feel free to open an issue or submit a pull request for any improvements or additional features.
+- [Blog Post on CLI Animations](https://example.com/cli-animations)
 
 ## License
 
